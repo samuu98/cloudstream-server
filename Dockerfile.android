@@ -1,0 +1,18 @@
+FROM eclipse-temurin:17-jdk-jammy AS sdk
+ENV ANDROID_HOME=/opt/android-sdk PATH=/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:$PATH
+RUN apt-get update && apt-get install -y --no-install-recommends curl unzip python3 libpulse0 libnss3 libx11-6 libxcb1 libxcomposite1 libxcursor1 libxi6 libxtst6 libasound2 libglu1-mesa libxdamage1 libxrandr2 libxkbcommon0 libdbus-1-3 && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /opt/android-sdk/cmdline-tools && curl -fL --retry 3 https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o /tmp/tools.zip && unzip -q /tmp/tools.zip -d /tmp/tools && mv /tmp/tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest && rm -rf /tmp/tools /tmp/tools.zip
+RUN yes | sdkmanager --licenses >/dev/null; sdkmanager 'platform-tools' 'build-tools;35.0.0' 'platforms;android-30'
+
+FROM sdk AS apk
+COPY android/ServerBridge.java android/patch_apk.py android/apk_container.py android/build-apk.sh android/server.keystore /src/android/
+RUN bash /src/android/build-apk.sh
+
+FROM sdk AS runtime
+RUN sdkmanager 'emulator' 'system-images;android-30;google_apis;x86_64'
+COPY --from=apk /out/cloudstream-server.apk /opt/cloudstream-server.apk
+COPY android/start.sh /opt/start.sh
+ENV ANDROID_AVD_HOME=/data/avd ANDROID_RAM_MB=1536
+VOLUME /data
+HEALTHCHECK --interval=20s --timeout=5s --start-period=300s CMD curl -fsS http://127.0.0.1:18181/health || exit 1
+ENTRYPOINT ["bash", "/opt/start.sh"]

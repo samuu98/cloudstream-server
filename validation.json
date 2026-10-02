@@ -1,0 +1,79 @@
+{
+  "status": {
+    "bootstrap": {
+      "state": "ready",
+      "result": {
+        "repository": "Zero Tituli",
+        "plugins": [
+          {
+            "internalName": "AnimeUnity",
+            "loaded": true
+          },
+          {
+            "internalName": "FCTV33",
+            "loaded": true
+          },
+          {
+            "internalName": "Hattrick",
+            "loaded": true
+          },
+          {
+            "internalName": "MediasetInfinity",
+            "loaded": true
+          },
+          {
+            "internalName": "StreamingCommunity",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    "android": {
+      "status": "ready",
+      "providers": 5,
+      "runtime": "Android CloudStream"
+    }
+  },
+  "providers": [
+    "AnimeUnity",
+    "FCTV33",
+    "Hattrick Sport",
+    "Mediaset Infinity",
+    "StreamingCommunity"
+  ],
+  "checks": {
+    "AnimeUnity": {
+      "rows": 1,
+      "items": 20,
+      "seconds": 3.1
+    },
+    "FCTV33": {
+      "rows": 5,
+      "items": 16,
+      "seconds": 3.0
+    },
+    "Hattrick Sport": {
+      "rows": 2,
+      "items": 17,
+      "seconds": 2.8
+    },
+    "Mediaset Infinity": {
+      "rows": 1,
+      "items": 12,
+      "seconds": 3.6,
+      "load": true,
+      "streams": 1,
+      "manifest_proxy": true,
+      "media_http_status": 200,
+      "media_bytes_sample": 640
+    },
+    "StreamingCommunity": {
+      "rows": 1,
+      "items": 10,
+      "seconds": 2.7
+    }
+  },
+  "apk": "cloudstream-archive/d77c856.apk",
+  "apk_sha256": "f1e08da61668c372548cbca5076f46aa9f3d2b5ffff5f890381df4de8fd93b88",
+  "date": "2026-10-01"
+}

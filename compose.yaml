@@ -1,0 +1,34 @@
+services:
+  android:
+    build:
+      context: .
+      dockerfile: Dockerfile.android
+    devices:
+      - /dev/kvm:/dev/kvm
+    volumes:
+      - android-data:/data
+    environment:
+      ANDROID_RAM_MB: ${ANDROID_RAM_MB:-1536}
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-8000}:8000"
+    restart: unless-stopped
+    stop_grace_period: 30s
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    network_mode: service:android
+    depends_on:
+      android:
+        condition: service_healthy
+    environment:
+      AUTH_REQUIRED: ${AUTH_REQUIRED:-false}
+      API_TOKEN: ${API_TOKEN:-}
+      REPOSITORY_URLS: ${REPOSITORY_URLS:-https://raw.githubusercontent.com/fixered/zeroTituli/master/repo.json,https://raw.githubusercontent.com/doGior/doGiorsHadEnough/builds/repo.json}
+      REPOSITORY_URL: ${REPOSITORY_URL:-https://raw.githubusercontent.com/fixered/zeroTituli/master/repo.json}
+    volumes:
+      - gateway-data:/data
+    restart: unless-stopped
+volumes:
+  android-data:
+  gateway-data:

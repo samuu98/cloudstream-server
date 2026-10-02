@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Zero Tituli · Server</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#0d1117;color:#e6edf3}body{max-width:1160px;margin:auto;padding:28px}header{display:flex;align-items:center;justify-content:space-between;gap:16px}h1{font-size:25px;margin:0}p{color:#9da9b7;line-height:1.6}input,select,button{font:inherit;background:#18212e;color:inherit;border:1px solid #344258;border-radius:8px;padding:11px}button{cursor:pointer}button:hover{border-color:#67e8c9}form,.toolbar{display:flex;gap:10px;margin:22px 0;flex-wrap:wrap}input{flex:1;min-width:180px}button.primary{background:#67e8c9;color:#071712;font-weight:650}#status{white-space:pre-wrap;color:#9da9b7;min-height:24px}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}.card{text-align:left;min-height:80px;padding:18px}.card small{display:block;color:#9da9b7;margin-top:10px}.section{margin:26px 0}video{width:100%;max-height:65vh;background:#000;border-radius:12px}pre{overflow:auto;font-size:13px;max-height:360px;white-space:pre-wrap}#detail,#player{margin-top:24px}a{color:#67e8c9}label{font-size:14px;color:#9da9b7}#session{max-width:650px}details{margin:20px 0}
+[hidden]{display:none!important}
+</style></head><body>
+<header><h1>Zero Tituli <span style="color:#67e8c9">/ Server</span></h1><a href="/docs">API</a></header>
+<p>Cataloghi e stream dalle estensioni CloudStream installate sul server.</p>
+<form id="session" hidden><input id="token" type="password" autocomplete="off" placeholder="Token API dal file .env" aria-label="Token API"><button class="primary">Connetti</button></form>
+<div class="toolbar" hidden id="toolbar"><select id="provider" aria-label="Sorgente"></select><select id="section" aria-label="Sezione"></select><button id="home">Catalogo</button><button id="refresh">Aggiorna estensioni</button></div>
+<form id="search" hidden><input id="query" placeholder="Cerca nella sorgente" aria-label="Cerca"><button>Cerca</button></form>
+<div id="status" role="status" aria-live="polite"></div><div id="player" hidden><video controls playsinline></video></div><div id="detail"></div><main id="results"></main>
+<details><summary>Risposta dell’API</summary><pre id="raw"></pre></details>
+<script src="/static/shaka-player.compiled.js"></script><script src="/static/app.js"></script>
+</body></html>
